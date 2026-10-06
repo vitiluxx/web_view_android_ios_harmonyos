@@ -1,0 +1,10 @@
+{
+  "color": [
+    { "name": "couleur_primaire",   "value": "#4D8CFF" },
+    { "name": "couleur_secondaire", "value": "#2BD4AC" },
+    { "name": "couleur_splash",     "value": "#0E1116" },
+    { "name": "couleur_fond",       "value": "#0E1116" },
+    { "name": "couleur_texte",      "value": "#EDF1F7" },
+    { "name": "couleur_erreur",     "value": "#FF6B6B" }
+  ]
+}

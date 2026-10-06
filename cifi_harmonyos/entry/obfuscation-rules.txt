@@ -1,0 +1,13 @@
+# Regles d'obscurcissement pour la version release.
+# On conserve les noms utilises par la passerelle JavaScript : le site
+# appelle ces methodes par leur nom, un renommage les casserait.
+-enable-property-obfuscation
+-enable-toplevel-obfuscation
+-keep-property-name
+appareilInformations
+positionActuelle
+vibrer
+partager
+notifier
+etatReseau
+pagesHorsLigne

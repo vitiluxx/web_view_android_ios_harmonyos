@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hors ligne</title>
+<!--
+  Page affichee quand le reseau manque et qu'aucune version enregistree
+  n'existe pour l'adresse demandee.
+
+  Les marqueurs {{...}} sont remplaces au moment de l'affichage par
+  lib/ecrans/ecran_hors_ligne.dart. Aucune ressource externe : pas de
+  police distante, pas de bibliotheque CSS, tout est ici.
+-->
+<style>
+  :root {
+    --couleur-primaire: {{COULEUR_PRIMAIRE}};
+    --couleur-fond: {{COULEUR_FOND}};
+    --couleur-texte: {{COULEUR_TEXTE}};
+    --couleur-discrete: {{COULEUR_DISCRETE}};
+    --couleur-bordure: {{COULEUR_BORDURE}};
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--couleur-fond);
+    color: var(--couleur-texte);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .enveloppe {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+    text-align: center;
+  }
+
+  .marque {
+    width: 68px;
+    height: 68px;
+    border-radius: 20px;
+    background: var(--couleur-primaire);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 26px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  }
+
+  .marque svg { width: 34px; height: 34px; }
+
+  h1 {
+    margin: 0 0 10px;
+    font-size: 21px;
+    font-weight: 650;
+    letter-spacing: -0.2px;
+  }
+
+  p.explication {
+    margin: 0 0 28px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--couleur-discrete);
+    max-width: 330px;
+  }
+
+  .liste-conseils {
+    list-style: none;
+    margin: 0 0 30px;
+    padding: 0;
+    width: 100%;
+    max-width: 330px;
+    text-align: left;
+  }
+
+  .liste-conseils li {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--couleur-bordure);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--couleur-discrete);
+  }
+
+  .liste-conseils li:last-child { border-bottom: none; }
+
+  .puce {
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    margin-top: 6px;
+    border-radius: 50%;
+    background: var(--couleur-primaire);
+  }
+
+  .bouton-principal {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 330px;
+    padding: 15px 20px;
+    border-radius: 13px;
+    background: var(--couleur-primaire);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    transition: transform 140ms ease, opacity 140ms ease;
+  }
+
+  .bouton-principal:active { transform: scale(0.975); opacity: 0.9; }
+
+  .bouton-secondaire {
+    appearance: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin-top: 16px;
+    padding: 10px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--couleur-primaire);
+    font-weight: 550;
+  }
+
+  .adresse {
+    margin-top: 26px;
+    font-size: 11.5px;
+    color: var(--couleur-discrete);
+    opacity: 0.68;
+    word-break: break-all;
+    max-width: 330px;
+    line-height: 1.5;
+  }
+
+  .pastille-attente {
+    display: none;
+    width: 17px;
+    height: 17px;
+    margin: 0 auto;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: rotation 760ms linear infinite;
+  }
+
+  @keyframes rotation { to { transform: rotate(360deg); } }
+
+  body.verification .bouton-principal .intitule { display: none; }
+  body.verification .bouton-principal .pastille-attente { display: block; }
+</style>
+</head>
+<body>
+  <div class="enveloppe">
+
+    <div class="marque" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 1l22 22"></path>
+        <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"></path>
+        <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"></path>
+        <path d="M10.71 5.05A16 16 0 0 1 22.58 9"></path>
+        <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"></path>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+      </svg>
+    </div>
+
+    <h1>Pas de connexion</h1>
+
+    <p class="explication">
+      {{NOM_APPLICATION}} n'arrive pas a joindre le reseau.
+      Les pages deja consultees restent lisibles hors ligne.
+    </p>
+
+    <ul class="liste-conseils">
+      <li><span class="puce"></span><span>Verifiez les donnees mobiles ou le Wi-Fi.</span></li>
+      <li><span class="puce"></span><span>Desactivez le mode avion s'il est actif.</span></li>
+      <li><span class="puce"></span><span>Changez de place : le signal varie beaucoup en interieur.</span></li>
+    </ul>
+
+    <button class="bouton-principal" id="bouton-reessayer" type="button">
+      <span class="intitule">Reessayer</span>
+      <span class="pastille-attente"></span>
+    </button>
+
+    <button class="bouton-secondaire" id="bouton-archives" type="button">
+      Voir les pages enregistrees
+    </button>
+
+    <div class="adresse">{{URL_DEMANDEE}}</div>
+  </div>
+
+<script>
+  // Le natif branche ces deux actions. En l'absence de passerelle
+  // (ouverture dans un vrai navigateur), on se rabat sur un rechargement.
+  var boutonReessayer = document.getElementById('bouton-reessayer');
+  var boutonArchives = document.getElementById('bouton-archives');
+
+  boutonReessayer.addEventListener('click', function () {
+    document.body.classList.add('verification');
+    if (window.flutter_inappwebview) {
+      window.flutter_inappwebview.callHandler('cifiHorsLigne.reessayer');
+    } else {
+      window.location.reload();
+    }
+    setTimeout(function () {
+      document.body.classList.remove('verification');
+    }, 2600);
+  });
+
+  boutonArchives.addEventListener('click', function () {
+    if (window.flutter_inappwebview) {
+      window.flutter_inappwebview.callHandler('cifiHorsLigne.ouvrirArchives');
+    }
+  });
+</script>
+</body>
+</html>

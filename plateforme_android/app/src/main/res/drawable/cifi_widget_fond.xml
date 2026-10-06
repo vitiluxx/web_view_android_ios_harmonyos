@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fond du widget : coins arrondis et couleur primaire.
+    La couleur est reecrite par scripts/appliquer_configuration.ps1
+    depuis configuration/cifi_parametres.json -> apparence.couleur_primaire
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#0B5FFF" />
+    <corners android:radius="20dp" />
+</shape>

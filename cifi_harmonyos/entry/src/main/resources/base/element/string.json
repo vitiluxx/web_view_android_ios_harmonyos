@@ -1,0 +1,20 @@
+{
+  "string": [
+    { "name": "nom_application",     "value": "CiFi Tech" },
+    { "name": "description_module",  "value": "Application CiFi Tech" },
+    { "name": "description_ability", "value": "Acces au service CiFi Tech" },
+
+    { "name": "raison_internet",      "value": "Afficher le contenu du service en ligne" },
+    { "name": "raison_etat_reseau",   "value": "Detecter la perte de connexion et basculer en mode hors ligne" },
+    { "name": "raison_notifications", "value": "Vous avertir des informations importantes du service" },
+    { "name": "raison_position",      "value": "Afficher les informations propres a votre zone" },
+    { "name": "raison_camera",        "value": "Prendre une photo a joindre a vos demandes et lire les codes QR" },
+    { "name": "raison_microphone",    "value": "Enregistrer un message vocal quand le service le propose" },
+    { "name": "raison_galerie",       "value": "Joindre une image deja enregistree sur votre appareil" },
+    { "name": "raison_vibration",     "value": "Donner un retour physique a vos actions" },
+
+    { "name": "titre_hors_ligne",     "value": "Pas de connexion" },
+    { "name": "bouton_reessayer",     "value": "Reessayer" },
+    { "name": "etat_chargement",      "value": "Chargement" }
+  ]
+}

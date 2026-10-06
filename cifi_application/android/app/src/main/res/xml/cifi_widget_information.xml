@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Description du widget pose sur l'ecran d'accueil Android.
+
+    updatePeriodMillis = 1800000 (30 min) : valeur minimale acceptee par
+    Android. Les mises a jour reelles viennent de l'application, via
+    ServiceWidgetAccueil.mettreAJour.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/cifi_widget_disposition"
+    android:minWidth="180dp"
+    android:minHeight="80dp"
+    android:targetCellWidth="3"
+    android:targetCellHeight="2"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen" />

@@ -1,0 +1,23 @@
+# ---------------------------------------------------------------------------
+# MODELE de fichier de signature Android.
+#
+# A COPIER vers :
+#     C:\projets_codes\web_view_android_ios_harmonyos\cifi_application\android\cles\cle.proprietes
+#
+# Ce fichier contient des mots de passe : il ne doit JAMAIS partir sur git.
+# Le .gitignore du projet l'exclut deja.
+#
+# Pour creer le magasin de cles (une seule fois, a garder precieusement) :
+#
+#   keytool -genkey -v -keystore cifi_release.jks -keyalg RSA -keysize 2048 ^
+#           -validity 10000 -alias cifi
+#
+# Placez ensuite cifi_release.jks dans le MEME dossier que ce fichier.
+# Si vous perdez ce magasin, vous ne pourrez plus mettre a jour
+# l'application sur le Play Store. Faites-en deux sauvegardes.
+# ---------------------------------------------------------------------------
+
+chemin_magasin=cles/cifi_release.jks
+alias_cle=cifi
+mot_de_passe_magasin=A_REMPLACER
+mot_de_passe_cle=A_REMPLACER

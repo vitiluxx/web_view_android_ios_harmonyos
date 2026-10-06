@@ -1,0 +1,20 @@
+{
+  // ---------------------------------------------------------------------
+  // Identite de l'application HarmonyOS NEXT.
+  //
+  // bundleName et versionName sont reecrits automatiquement par
+  // scripts/appliquer_configuration.ps1 depuis
+  //     configuration/cifi_parametres.json
+  // ---------------------------------------------------------------------
+  "app": {
+    "bundleName": "td.cifi.tech.navigateur",
+    "vendor": "CiFi",
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "icon": "$media:app_icon",
+    "label": "$string:nom_application",
+    "minAPIVersion": 12,
+    "targetAPIVersion": 12,
+    "apiReleaseType": "Release"
+  }
+}

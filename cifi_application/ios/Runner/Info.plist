@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+    Reglages iOS de l'application CiFi.
+
+    Recopie par scripts/initialiser_projet.sh vers :
+        cifi_application/ios/Runner/Info.plist
+
+    CFBundleDisplayName est reecrit automatiquement par
+    scripts/appliquer_configuration.sh depuis
+        configuration/cifi_parametres.json -> identite.nom_affiche
+
+    Les textes NS*UsageDescription s'affichent a l'utilisateur quand
+    l'application demande une autorisation. Apple REFUSE les applications
+    dont ces textes sont vagues : dites precisement a quoi sert l'acces.
+-->
+<plist version="1.0">
+	<dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>CiFi Tech</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>cifi_navigateur</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<!-- ==================================== autorisations materielles -->
+		<key>NSCameraUsageDescription</key>
+		<string>L'appareil photo sert a prendre une photo a joindre a vos demandes et a lire les codes QR.</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Le micro sert a enregistrer un message vocal quand le service le propose.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>L'acces aux photos sert a joindre une image deja enregistree sur votre telephone.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Cette autorisation permet d'enregistrer dans vos photos les documents telecharges.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Votre position sert a afficher les informations et les alertes propres a votre zone.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>La position en arriere-plan permet de vous avertir quand vous arrivez a proximite d'un de nos points de service.</string>
+		<key>NSUserTrackingUsageDescription</key>
+		<string>Aucune donnee n'est utilisee pour du suivi publicitaire.</string>
+		<!-- ==================================== notifications et arriere-plan -->
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>FirebaseAppDelegateProxyEnabled</key>
+		<true/>
+		<!-- ==================================== reseau -->
+		<!-- HTTPS obligatoire. Pour tester un site local en HTTP, ajoutez une
+	     exception NSExceptionDomains ici ET retirez-la avant publication. -->
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<false/>
+		</dict>
+		<!-- ==================================== applications externes -->
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<string>tel</string>
+			<string>mailto</string>
+			<string>sms</string>
+			<string>https</string>
+			<string>http</string>
+			<string>whatsapp</string>
+		</array>
+		<key>ITSAppUsesNonExemptEncryption</key>
+		<false/>
+		<key>UIStatusBarHidden</key>
+		<true/>
+	</dict>
+</plist>

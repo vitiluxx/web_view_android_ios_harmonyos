@@ -1,0 +1,124 @@
+{
+  // ---------------------------------------------------------------------
+  // Declaration du module principal et de ses autorisations.
+  //
+  // Chaque autorisation doit porter une raison ("reason") et une portee
+  // d'usage : AppGallery refuse les modules dont ces champs manquent.
+  // ---------------------------------------------------------------------
+  "module": {
+    "name": "entry",
+    "type": "entry",
+    "description": "$string:description_module",
+    "mainElement": "EntryAbility",
+    "deviceTypes": ["phone", "tablet", "2in1"],
+    "deliveryWithInstall": true,
+    "installationFree": false,
+    "pages": "$profile:main_pages",
+
+    "abilities": [
+      {
+        "name": "EntryAbility",
+        "srcEntry": "./ets/entryability/EntryAbility.ets",
+        "description": "$string:description_ability",
+        "icon": "$media:app_icon",
+        "label": "$string:nom_application",
+        "startWindowIcon": "$media:splash_logo",
+        "startWindowBackground": "$color:couleur_splash",
+        "exported": true,
+        "skills": [
+          {
+            "entities": ["entity.system.home"],
+            "actions": ["action.system.home"]
+          },
+          {
+            // Ouverture des liens du site depuis une autre application.
+            // Le domaine est reecrit par appliquer_configuration.
+            "entities": ["entity.system.browsable"],
+            "actions": ["ohos.want.action.viewData"],
+            "uris": [
+              {
+                "scheme": "https",
+                "host": "www.cifi.td"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+
+    "requestPermissions": [
+      {
+        "name": "ohos.permission.INTERNET",
+        "reason": "$string:raison_internet",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.GET_NETWORK_INFO",
+        "reason": "$string:raison_etat_reseau",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.NOTIFICATION_CONTROLLER",
+        "reason": "$string:raison_notifications",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "always"
+        }
+      },
+      {
+        "name": "ohos.permission.LOCATION",
+        "reason": "$string:raison_position",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.APPROXIMATELY_LOCATION",
+        "reason": "$string:raison_position",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.CAMERA",
+        "reason": "$string:raison_camera",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.MICROPHONE",
+        "reason": "$string:raison_microphone",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.READ_IMAGEVIDEO",
+        "reason": "$string:raison_galerie",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      },
+      {
+        "name": "ohos.permission.VIBRATE",
+        "reason": "$string:raison_vibration",
+        "usedScene": {
+          "abilities": ["EntryAbility"],
+          "when": "inuse"
+        }
+      }
+    ]
+  }
+}

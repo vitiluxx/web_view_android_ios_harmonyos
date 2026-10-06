@@ -1,0 +1,79 @@
+# ---------------------------------------------------------------------------
+# CiFi Tech - fichiers exclus du depot
+# ---------------------------------------------------------------------------
+
+# --- SECRETS : ne jamais publier
+cles/
+*.jks
+*.keystore
+*.p12
+*.mobileprovision
+*.cer
+cle.proprietes
+key.properties
+google-services.json
+GoogleService-Info.plist
+agconnect-services.json
+.env
+.env.*
+
+# --- livrables compiles
+livrables/
+*.apk
+*.aab
+*.ipa
+*.hap
+*.app
+
+# --- Flutter / Dart
+cifi_application/.dart_tool/
+cifi_application/.flutter-plugins
+cifi_application/.flutter-plugins-dependencies
+cifi_application/.packages
+cifi_application/build/
+cifi_application/pubspec.lock
+cifi_application/ios/Pods/
+cifi_application/ios/Podfile.lock
+cifi_application/ios/.symlinks/
+cifi_application/ios/Flutter/Flutter.framework
+cifi_application/ios/Flutter/Flutter.podspec
+cifi_application/ios/Flutter/Generated.xcconfig
+cifi_application/ios/Flutter/flutter_export_environment.sh
+cifi_application/android/.gradle/
+cifi_application/android/local.properties
+cifi_application/android/gradle.properties
+cifi_application/android/app/debug/
+cifi_application/android/app/profile/
+cifi_application/android/app/release/
+
+# --- fichiers generes et recopies par les scripts
+# (ils sont reconstruits par appliquer_configuration, inutile de les suivre)
+cifi_application/assets/configuration/
+cifi_application/assets/marque/
+cifi_harmonyos/entry/src/main/resources/rawfile/cifi_parametres.json
+cifi_harmonyos/entry/src/main/resources/rawfile/hors_ligne.html
+cifi_harmonyos/entry/src/main/resources/base/media/*.png
+cifi_harmonyos/AppScope/resources/base/media/*.png
+
+# --- HarmonyOS
+cifi_harmonyos/.hvigor/
+cifi_harmonyos/.idea/
+cifi_harmonyos/build/
+cifi_harmonyos/entry/build/
+cifi_harmonyos/oh_modules/
+cifi_harmonyos/entry/oh_modules/
+cifi_harmonyos/oh-package-lock.json5
+cifi_harmonyos/local.properties
+
+# --- outils et editeurs
+.idea/
+.vscode/
+*.iml
+*.swp
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+
+# --- journaux
+*.log
