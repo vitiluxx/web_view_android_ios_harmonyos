@@ -59,7 +59,7 @@
     </queries>
 
     <application
-        android:label="CiFi Tech"
+        android:label="EST LASALLE"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:networkSecurityConfig="@xml/configuration_securite_reseau"
@@ -93,7 +93,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="www.cifi.td" />
+                <data android:scheme="https" android:host="lasalle.cloud" />
             </intent-filter>
         </activity>
 

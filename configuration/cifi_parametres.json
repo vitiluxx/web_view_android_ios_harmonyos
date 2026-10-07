@@ -1,28 +1,27 @@
 {
   "_lisezmoi": "SOURCE UNIQUE DE VERITE. Modifiez ce fichier puis lancez scripts/appliquer_configuration.ps1",
-
   "identite": {
-    "nom_affiche": "CiFi Tech",
+    "nom_affiche": "EST LASALLE",
     "nom_paquet_android": "td.cifi.tech.navigateur",
     "nom_paquet_ios": "td.cifi.tech.navigateur",
     "nom_paquet_harmonyos": "td.cifi.tech.navigateur",
-    "nom_fichier_sortie": "cifi_tech",
+    "nom_fichier_sortie": "EST LASALLE",
     "version_affichee": "1.0.0",
     "numero_build": 1,
-    "editeur": "CiFi - Centrale d'Innovation et de Formation en Informatique",
+    "editeur": "CiFi - Centrale Informatique de Formation et d'Innovation",
     "ville": "N'Djamena",
     "pays": "Tchad"
   },
-
   "site_cible": {
-    "url_accueil": "https://www.cifi.td",
-    "domaines_autorises": ["cifi.td", "www.cifi.td"],
+    "url_accueil": "https://lasalle.cloud",
+    "domaines_autorises": [
+      "lasalle.cloud"
+    ],
     "ouvrir_domaines_externes_dans_navigateur": true,
     "agent_utilisateur_suffixe": "CiFiApp/1.0",
     "autoriser_zoom": false,
     "autoriser_selection_texte": true
   },
-
   "apparence": {
     "couleur_primaire": "#0B5FFF",
     "couleur_secondaire": "#00B894",
@@ -34,13 +33,11 @@
     "mode_sombre_automatique": true,
     "orientation_verrouillee": "aucune"
   },
-
   "marque": {
     "logo_application": "marque/logo.png",
     "logo_splash": "marque/logo_splash.png",
     "logo_notification": "marque/logo_notification.png"
   },
-
   "fonctionnalites": {
     "mode_hors_ligne": true,
     "duree_cache_jours": 7,
@@ -60,7 +57,6 @@
     "barre_progression_chargement": true,
     "navigation_gestes_retour": true
   },
-
   "geofences": [
     {
       "identifiant": "siege_ndjamena",
@@ -68,18 +64,16 @@
       "latitude": 12.1348,
       "longitude": 15.0557,
       "rayon_metres": 500,
-      "message_entree": "Bienvenue au siege CiFi Tech.",
-      "message_sortie": "A bientot chez CiFi Tech."
+      "message_entree": "Bienvenue a l'E.S.T LA SALLE.",
+      "message_sortie": "A bientot chez E.S.T LA SALLE."
     }
   ],
-
   "notifications": {
     "canal_identifiant": "cifi_canal_principal",
-    "canal_libelle": "Notifications CiFi",
-    "canal_description": "Alertes et informations CiFi Tech",
-    "sujet_diffusion": "cifi_tous"
+    "canal_libelle": "Notifications E.S.T",
+    "canal_description": "Alertes et informations E.S.T",
+    "sujet_diffusion": "EST_tous"
   },
-
   "signature_android": {
     "chemin_magasin_cles": "cles/cifi_release.jks",
     "alias_cle": "cifi",

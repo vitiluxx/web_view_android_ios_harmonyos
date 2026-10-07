@@ -345,11 +345,29 @@ struct PageNavigateur {
       .replace(/\{\{COULEUR_DISCRETE\}\}/g, 'rgba(17, 22, 29, 0.62)')
       .replace(/\{\{COULEUR_BORDURE\}\}/g, 'rgba(17, 22, 29, 0.12)')
       .replace(/\{\{NOM_APPLICATION\}\}/g, Parametres.courants.identite.nom_affiche)
+      .replace(/\{\{TITRE\}\}/g, 'Pas de connexion')
+      .replace(/\{\{EXPLICATION\}\}/g,
+        `${Parametres.courants.identite.nom_affiche} n'arrive pas a joindre le reseau. ` +
+        'Les pages deja consultees restent lisibles hors ligne.')
+      .replace(/\{\{CONSEILS\}\}/g, this.conseilsHorsLigne())
       .replace(/\{\{URL_DEMANDEE\}\}/g, adresse);
 
     this.pageSecoursAffichee = true;
     this.premierRenduTermine = true;
     this.controleurWeb.loadData(html, 'text/html', 'UTF-8', undefined, undefined);
+  }
+
+  /** Conseils de la page hors ligne, rendus en elements de liste. */
+  private conseilsHorsLigne(): string {
+    const lignes: string[] = [
+      'Verifiez les donnees mobiles ou le Wi-Fi.',
+      "Desactivez le mode avion s'il est actif.",
+      'Changez de place : le signal varie beaucoup en interieur.'
+    ];
+    return lignes
+      .map((ligne: string) =>
+        `<li><span class="puce"></span><span>${ligne}</span></li>`)
+      .join('');
   }
 
   private afficherListeArchives(): void {

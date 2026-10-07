@@ -108,6 +108,11 @@ class _EtatEcranNavigateur extends State<EcranNavigateur> {
           onPageFinished: _surFinChargement,
           onWebResourceError: _surErreurChargement,
           onNavigationRequest: _surDemandeNavigation,
+          // Sans ces deux rappels, un certificat invalide ou une erreur
+          // serveur donnent un ecran BLANC, sans le moindre message :
+          // le systeme annule le chargement en silence.
+          onSslAuthError: _surErreurCertificat,
+          onHttpError: _surErreurHttp,
         ),
       )
       ..addJavaScriptChannel(
@@ -363,10 +368,59 @@ class _EtatEcranNavigateur extends State<EcranNavigateur> {
     await _afficherSecoursHorsLigne(erreur.url ?? _urlCourante);
   }
 
+  /// Certificat de securite refuse par le systeme.
+  ///
+  /// On ANNULE toujours. Appeler proceed() ferait passer la connexion
+  /// malgre un certificat douteux : c'est exactement ce contre quoi la
+  /// verification protege, et le Play Store le sanctionne.
+  Future<void> _surErreurCertificat(SslAuthError erreur) async {
+    Journal.erreur('certificat refuse : ${erreur.platform.description}');
+    await erreur.cancel();
+
+    await _afficherSecoursHorsLigne(
+      _urlCourante,
+      motif: MotifSecours.certificatInvalide,
+      detailTechnique: erreur.platform.description,
+    );
+  }
+
+  /// Le serveur a repondu, mais par un code d'erreur.
+  Future<void> _surErreurHttp(HttpResponseError erreur) async {
+    final int? code = erreur.response?.statusCode;
+
+    // Les redirections et les reponses correctes ne nous concernent pas.
+    if (code == null || code < 400) {
+      return;
+    }
+
+    // WebResourceRequest n'indique pas s'il s'agit du document principal :
+    // on compare donc l'adresse en erreur a celle de la page en cours.
+    // Une image ou un script absent ne doit pas remplacer toute la page.
+    final String adresseFautive = erreur.request?.uri.toString() ?? '';
+    if (adresseFautive.isNotEmpty && adresseFautive != _urlCourante) {
+      Journal.deboguer('ressource secondaire en erreur ($code) : $adresseFautive');
+      return;
+    }
+
+    Journal.alerter('reponse du serveur : $code');
+    await _afficherSecoursHorsLigne(
+      adresseFautive.isEmpty ? _urlCourante : adresseFautive,
+      motif: MotifSecours.erreurServeur,
+      detailTechnique: 'code $code',
+    );
+  }
+
   /// Tente d'abord la version enregistree de la page ; a defaut, montre
-  /// la page hors ligne locale.
-  Future<void> _afficherSecoursHorsLigne(String adresse) async {
-    if (_fonctionnalites.modeHorsLigne) {
+  /// la page de secours locale, avec un message adapte au motif.
+  Future<void> _afficherSecoursHorsLigne(
+    String adresse, {
+    MotifSecours motif = MotifSecours.reseauAbsent,
+    String detailTechnique = '',
+  }) async {
+    // Une page archivee ne sert a rien si le probleme vient du
+    // certificat : l'utilisateur doit d'abord etre averti.
+    if (_fonctionnalites.modeHorsLigne &&
+        motif == MotifSecours.reseauAbsent) {
       final String? htmlArchive = await widget.registre.cache.lireHtml(adresse);
       if (htmlArchive != null) {
         _pageHorsLigneAffichee = true;
@@ -385,6 +439,8 @@ class _EtatEcranNavigateur extends State<EcranNavigateur> {
     final String html = await _fabriqueHorsLigne.construire(
       urlDemandee: adresse,
       modeSombre: modeSombre,
+      motif: motif,
+      detailTechnique: detailTechnique,
     );
 
     _pageHorsLigneAffichee = true;

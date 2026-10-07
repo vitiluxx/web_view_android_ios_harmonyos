@@ -178,18 +178,11 @@
       </svg>
     </div>
 
-    <h1>Pas de connexion</h1>
+    <h1>{{TITRE}}</h1>
 
-    <p class="explication">
-      {{NOM_APPLICATION}} n'arrive pas a joindre le reseau.
-      Les pages deja consultees restent lisibles hors ligne.
-    </p>
+    <p class="explication">{{EXPLICATION}}</p>
 
-    <ul class="liste-conseils">
-      <li><span class="puce"></span><span>Verifiez les donnees mobiles ou le Wi-Fi.</span></li>
-      <li><span class="puce"></span><span>Desactivez le mode avion s'il est actif.</span></li>
-      <li><span class="puce"></span><span>Changez de place : le signal varie beaucoup en interieur.</span></li>
-    </ul>
+    <ul class="liste-conseils">{{CONSEILS}}</ul>
 
     <button class="bouton-principal" id="bouton-reessayer" type="button">
       <span class="intitule">Reessayer</span>
