@@ -39,16 +39,33 @@ Sur Mac ou Linux :
 ./scripts/compiler_android.sh
 ```
 
-Resultat :
+Resultat, avec les tailles reellement mesurees sur ce projet :
+
+| Fichier | Taille | Pour qui |
+|---|---|---|
+| `cifi_tech_1.0.0_arm64-v8a.apk` | 25,7 Mo | tous les telephones recents |
+| `cifi_tech_1.0.0_armeabi-v7a.apk` | 21,5 Mo | anciens telephones 32 bits |
+| `cifi_tech_1.0.0_x86_64.apk` | 28,1 Mo | emulateurs et rares tablettes |
+| `cifi_tech_1.0.0_universel.apk` | 65,3 Mo | les trois a la fois (option `-SansDecoupage`) |
+| `cifi_tech_1.0.0.aab` | 59,3 Mo | a deposer sur le Play Store |
+
+Tous dans :
 
 ```
-C:\projets_codes\web_view_android_ios_harmonyos\livrables\android\cifi_tech_1.0.0_arm64-v8a.apk
-C:\projets_codes\web_view_android_ios_harmonyos\livrables\android\cifi_tech_1.0.0_armeabi-v7a.apk
-C:\projets_codes\web_view_android_ios_harmonyos\livrables\android\cifi_tech_1.0.0_x86_64.apk
+C:\projets_codes\web_view_android_ios_harmonyos\livrables\android\
 ```
 
-Trois fichiers, parce que par defaut le script fait un APK par type de
-processeur. C'est plus leger pour l'utilisateur.
+Trois fichiers APK, parce que par defaut le script fait un APK par type
+de processeur. C'est environ trois fois plus leger pour l'utilisateur
+que le fichier universel.
+
+> **Le numero de version des APK decoupes vous surprendra.**
+> L'APK `arm64-v8a` affiche `versionCode=2001` alors que votre
+> configuration dit `1`. C'est normal : Flutter ajoute
+> `1000 x numero_architecture` pour que le Play Store distingue les
+> fichiers et serve le bon a chaque telephone.
+> Voir `docs\06_depannage.md`, section 16.8.
+
 
 > **Lequel envoyer a quelqu'un ?**
 > `arm64-v8a` dans 95 % des cas. C'est le processeur de tous les

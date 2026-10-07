@@ -406,7 +406,172 @@ Vos fichiers suivants ne sont **jamais** touches :
 
 ---
 
-## 16. Les journaux : ou regarder
+## 16. Problemes rencontres lors de la premiere compilation
+
+Cette section liste des blocages reels, rencontres en compilant ce
+projet pour de bon. Chacun a une cause precise et une solution verifiee.
+
+### 16.1 "kotlinOptions is deprecated" : la compilation s'arrete
+
+**Message :** `Script compilation errors ... kotlinOptions ... is deprecated`
+
+**Cause :** depuis AGP 9 et Kotlin 2, le bloc `kotlinOptions { }` a
+l'interieur de `android { }` n'est plus un avertissement mais une
+**erreur**. Le reglage a demenage a la racine du fichier.
+
+**Solution :** dans
+`cifi_application/android/app/build.gradle.kts`, la forme correcte est
+
+```kotlin
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
+}
+```
+
+C'est deja le cas dans ce projet. Si vous repartez d'un `flutter create`
+plus ancien, pensez a verifier ce point.
+
+### 16.2 "NDK not configured" ou "did not have a source.properties file"
+
+**Cause :** le NDK Android est **obligatoire** pour ce projet, meme si
+nous n'ecrivons aucun code C++ : `path_provider_android` depend de `jni`,
+qui le reclame.
+
+**Si le dossier existe mais est incomplet** (telechargement interrompu),
+Gradle refuse de demarrer. Supprimez-le :
+
+```powershell
+Remove-Item -LiteralPath "C:/outils_mobile/android_sdk/ndk" -Recurse -Force
+```
+
+**Pour l'installer :**
+
+```powershell
+# Methode normale
+sdkmanager --install "ndk;28.2.13676358"
+
+# Si la connexion coupe : telechargez l'archive a la main sur
+# https://developer.android.com/ndk/downloads (version r28c, ~713 Mo)
+# puis laissez-la dans Telechargements et lancez
+powershell -File scripts\installer_ndk_manuel.ps1
+```
+
+### 16.3 "Failed to find target with hash string 'android-37'"
+
+**Cause :** un greffon compile contre l'API 37. Or Android publie
+desormais cette API sous le nom `android-37.0`, avec un numero mineur,
+et AGP 9.1 ne sait pas encore faire le rapprochement : il cherche
+`android-37` tout court.
+
+**Solution retenue dans ce projet :** `permission_handler` est fige en
+`^12.0.0`, dont la partie Android vise l'API 35. La raison est ecrite en
+commentaire dans `cifi_application/pubspec.yaml`.
+
+Reessayez de monter cette contrainte quand AGP saura lire les niveaux
+d'API a version mineure.
+
+### 16.4 "requires desugar_jdk_libs version to be X or above"
+
+**Cause :** `flutter_local_notifications` exige une version minimale de
+la bibliotheque de retro-compatibilite.
+
+**Solution :** montez le numero dans
+`plateforme_android/app/build.gradle.kts`, puis relancez
+`scripts/initialiser_projet.ps1` :
+
+```kotlin
+coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+```
+
+### 16.5 "compiled against android-34" alors qu'il en faut 36
+
+**Cause :** un greffon trop ancien. Ce n'est pas au `compileSdk` de
+l'application qu'il faut toucher, mais a la version du greffon.
+
+**Solution :** remettez les dependances a jour.
+
+```powershell
+cd C:\projets_codes\web_view_android_ios_harmonyos\cifi_application
+flutter pub upgrade --major-versions
+flutter analyze
+```
+
+`flutter analyze` vous dira exactement ce que la montee de version a
+casse dans le code. En general quelques appels a renommer.
+
+### 16.6 La compilation est tuee avant la fin
+
+**Cause :** Gradle demande trop de memoire. Le gabarit Flutter reclame
+`-Xmx8G`, une valeur pensee pour des machines tres bien dotees.
+
+**Solution :** elle est deja appliquee dans ce projet, via
+`plateforme_android/gradle.properties` :
+
+```properties
+org.gradle.jvmargs=-Xmx3G -XX:MaxMetaspaceSize=1G
+org.gradle.parallel=false
+```
+
+Si cela ne suffit pas, fermez ce qui consomme de la memoire. Un
+navigateur avec beaucoup d'onglets prend facilement 2 Go, et WSL ou
+Docker (processus `vmmem`) encore autant :
+
+```powershell
+wsl --shutdown
+```
+
+### 16.7 Avertissement sur le greffon Kotlin
+
+**Message :** `Your app uses the following plugins that apply Kotlin
+Gradle Plugin (KGP) ... Future versions of Flutter will fail to build`
+
+**Ce n'est pas une erreur aujourd'hui.** Le reglage qui maintient
+l'ancien comportement est dans
+`cifi_application/android/gradle.properties` :
+
+```properties
+android.builtInKotlin=false
+```
+
+**Pour savoir ou vous en etes :**
+
+```powershell
+python scripts/auditer_greffons_kotlin.py
+```
+
+Le script lit `pubspec.lock`, inspecte chaque greffon et dit lesquels
+sont en retard. Quand la liste est vide, il vous donne la marche a
+suivre pour passer a `true`.
+
+A la date de redaction, trois greffons etaient concernes
+(`firebase_core`, `home_widget`, `mobile_scanner`) et **tous les trois
+etaient deja a leur derniere version** : il n'y avait rien a mettre a
+jour, seulement a attendre leur correction en amont.
+
+### 16.8 Le numero de version des APK decoupes est bizarre
+
+L'APK `arm64-v8a` affiche `versionCode=2001` alors que votre
+configuration dit `1`. **C'est normal et voulu.**
+
+Quand les APK sont decoupes par architecture, Flutter ajoute
+automatiquement `1000 x numero_architecture` au `versionCode`, pour que
+le Play Store puisse les distinguer et servir le bon fichier a chaque
+telephone.
+
+| Fichier | versionCode |
+|---|---|
+| `armeabi-v7a` | 1001 |
+| `arm64-v8a` | 2001 |
+| `x86_64` | 4001 |
+
+Ne corrigez rien. Si vous publiez le `.aab`, la question ne se pose meme
+pas : le Play Store fait le decoupage lui-meme.
+
+---
+
+## 17. Les journaux : ou regarder
 
 | Quoi | Ou |
 |---|---|
@@ -419,7 +584,7 @@ Vos fichiers suivants ne sont **jamais** touches :
 
 ---
 
-## 17. Verifier que tout est en place
+## 18. Verifier que tout est en place
 
 ```powershell
 # Les outils

@@ -117,6 +117,13 @@ if [ "$(uname -s)" = "Darwin" ]; then
     ecrire_info "modele de widget iOS depose dans ios/CifiWidget (a ajouter dans Xcode)"
 fi
 
+# gradle.properties vit a la racine du dossier android, pas dans app :
+# il est donc recopie a part. Il porte notre reglage memoire.
+if [ -f "${OVERLAY_ANDROID}/gradle.properties" ]; then
+    cp "${OVERLAY_ANDROID}/gradle.properties" "${DOSSIER_FLUTTER}/android/gradle.properties"
+    ecrire_succes "gradle.properties -> reglage memoire applique"
+fi
+
 mkdir -p "${DOSSIER_FLUTTER}/android/cles"
 if [ -f "${OVERLAY_ANDROID}/cle.proprietes.modele" ]; then
     cp "${OVERLAY_ANDROID}/cle.proprietes.modele" "${DOSSIER_FLUTTER}/android/cles/"

@@ -12,40 +12,53 @@ dependencies:
     sdk: flutter
 
   # --- affichage du site
-  flutter_inappwebview: ^6.0.0
+  # webview_flutter est maintenu par l'equipe Flutter. Les deux paquets
+  # de plateforme sont declares explicitement : le code a besoin d'eux
+  # pour les reglages propres a Android et a iOS (fichiers, position,
+  # autorisations camera et micro).
+  webview_flutter: ^4.14.1
+  webview_flutter_android: ^4.14.1
+  webview_flutter_wkwebview: ^3.27.0
 
   # --- reseau et stockage
-  connectivity_plus: ^6.0.0
+  connectivity_plus: ^7.3.1
   shared_preferences: ^2.2.0
   path_provider: ^2.1.0
   http: ^1.2.0
 
   # --- notifications push et locales
-  firebase_core: ^3.0.0
-  firebase_messaging: ^15.0.0
-  flutter_local_notifications: ^17.0.0
+  firebase_core: ^4.15.0
+  firebase_messaging: ^16.7.0
+  flutter_local_notifications: ^22.3.1
 
   # --- materiel
-  geolocator: ^12.0.0
-  permission_handler: ^11.3.0
+  geolocator: ^14.1.1
+  # VERSION VOLONTAIREMENT FIGEE sous la derniere.
+  # permission_handler 13 entraine permission_handler_android 14, qui
+  # compile contre l'API 37. Or Android publie desormais cette API sous
+  # le nom "android-37.0", que AGP 9.1 ne sait pas resoudre : il cherche
+  # "android-37" et echoue. La version 12 vise l'API 35 et fonctionne.
+  # Reessayez de monter cette contrainte quand AGP saura lire les
+  # niveaux d'API a version mineure.
+  permission_handler: ^12.0.0
   image_picker: ^1.0.0
-  file_picker: ^8.0.0
-  mobile_scanner: ^5.0.0
-  vibration: ^2.0.0
-  share_plus: ^10.0.0
+  file_picker: ^13.1.0
+  mobile_scanner: ^7.4.2
+  vibration: ^3.2.1
+  share_plus: ^13.3.1
   url_launcher: ^6.2.0
-  device_info_plus: ^10.1.0
-  package_info_plus: ^8.0.0
+  device_info_plus: ^13.3.0
+  package_info_plus: ^10.2.2
 
   # --- widget ecran d'accueil (Android App Widget + iOS WidgetKit)
-  home_widget: ^0.6.0
+  home_widget: ^0.10.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
   flutter_native_splash: ^2.4.0
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
   uses-material-design: true

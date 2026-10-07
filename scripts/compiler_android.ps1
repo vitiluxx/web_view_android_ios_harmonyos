@@ -74,7 +74,9 @@ if (-not $Debogage) {
 New-Item -ItemType Directory -Path $dossierLivrables -Force | Out-Null
 
 $mode = if ($Debogage) { "--debug" } else { "--release" }
-$decoupage = if ($SansDecoupage -or $Type -ne "apk") { "" } else { "--split-per-abi" }
+# Le decoupage ne concerne que les APK. Le bundle AAB est decoupe par
+# le Play Store lui-meme, il ne prend jamais cette option.
+$decoupage = if ($SansDecoupage) { "" } else { "--split-per-abi" }
 
 Push-Location $dossierFlutter
 try {
@@ -89,6 +91,7 @@ try {
         } else {
             flutter build apk $mode
         }
+
         if ($LASTEXITCODE -ne 0) { throw "compilation APK echouee" }
     }
 
@@ -112,7 +115,9 @@ $collectes = 0
 
 if (Test-Path $sourceApk) {
     Get-ChildItem $sourceApk -Filter "*.apk" | ForEach-Object {
-        $suffixe = $_.BaseName -replace "^app-", "" -replace "-release$", "" -replace "-debug$", ""
+        # app-arm64-v8a-release.apk  ->  arm64-v8a
+        # app-release.apk            ->  universel
+        $suffixe = $_.BaseName -replace "^app-?", "" -replace "-?release$", "" -replace "-?debug$", ""
         if ($suffixe -eq "" -or $suffixe -eq "app") { $suffixe = "universel" }
         $nomFinal = ($nomSortie + "_" + $version + "_" + $suffixe + ".apk")
         Copy-Item $_.FullName (Join-Path $dossierLivrables $nomFinal) -Force

@@ -83,7 +83,9 @@ mkdir -p "$DOSSIER_LIVRABLES"
 
     if [ "$TYPE" = "apk" ] || [ "$TYPE" = "tout" ]; then
         ecrire_info "compilation APK ${MODE}"
-        if [ -n "$DECOUPAGE" ] && [ "$TYPE" = "apk" ]; then
+        # Le decoupage ne concerne que les APK. Le bundle AAB est decoupe
+        # par le Play Store lui-meme, il ne prend jamais cette option.
+        if [ -n "$DECOUPAGE" ]; then
             flutter build apk "$MODE" "$DECOUPAGE" || exit 1
         else
             flutter build apk "$MODE" || exit 1
@@ -105,9 +107,13 @@ COLLECTES=0
 for fichier in "${DOSSIER_FLUTTER}"/build/app/outputs/flutter-apk/*.apk; do
     [ -e "$fichier" ] || continue
     base="$(basename "$fichier" .apk)"
+    # app-arm64-v8a-release.apk  ->  arm64-v8a
+    # app-release.apk            ->  universel
     suffixe="${base#app-}"
     suffixe="${suffixe%-release}"
     suffixe="${suffixe%-debug}"
+    suffixe="${suffixe#release}"
+    suffixe="${suffixe#debug}"
     if [ -z "$suffixe" ] || [ "$suffixe" = "app" ]; then suffixe="universel"; fi
     destination="${DOSSIER_LIVRABLES}/${NOM_SORTIE}_${VERSION}_${suffixe}.apk"
     cp "$fichier" "$destination"

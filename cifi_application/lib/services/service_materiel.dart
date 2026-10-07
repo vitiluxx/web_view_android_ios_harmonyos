@@ -97,11 +97,14 @@ class ServiceMateriel extends Service {
       return null;
     }
     try {
-      final FilePickerResult? resultat = await FilePicker.platform.pickFiles();
-      if (resultat == null || resultat.files.isEmpty) {
+      // file_picker 13 : methode statique, qui rend directement la liste
+      // des fichiers choisis. Le chemin est nul pour un fichier distant,
+      // d'ou le passage par firstOrNull plutot que par first.
+      final List<PlatformFile> fichiers = await FilePicker.pickFiles();
+      if (fichiers.isEmpty) {
         return null;
       }
-      return resultat.files.first.path;
+      return fichiers.first.path;
     } catch (erreur) {
       Journal.alerter('selection de fichier impossible : $erreur');
       return null;
@@ -130,7 +133,9 @@ class ServiceMateriel extends Service {
       return;
     }
     try {
-      await Share.share(texte, subject: sujet);
+      await SharePlus.instance.share(
+        ShareParams(text: texte, subject: sujet),
+      );
     } catch (erreur) {
       Journal.alerter('partage impossible : $erreur');
     }
@@ -146,7 +151,9 @@ class ServiceMateriel extends Service {
       return;
     }
     try {
-      await Share.shareXFiles(<XFile>[XFile(chemin)], text: texte);
+      await SharePlus.instance.share(
+        ShareParams(files: <XFile>[XFile(chemin)], text: texte),
+      );
     } catch (erreur) {
       Journal.alerter('partage de fichier impossible : $erreur');
     }

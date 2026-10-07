@@ -61,8 +61,10 @@ class ServiceNotifications extends Service {
       requestSoundPermission: true,
     );
 
+    // flutter_local_notifications 22 : les reglages passent par un
+    // parametre nomme, et non plus en premiere position.
     await _notificationsLocales.initialize(
-      const InitializationSettings(
+      settings: const InitializationSettings(
         android: reglagesAndroid,
         iOS: reglagesApple,
         macOS: reglagesApple,
@@ -115,11 +117,13 @@ class ServiceNotifications extends Service {
       presentSound: true,
     );
 
+    // Tous les parametres sont nommes depuis la version 22.
     await _notificationsLocales.show(
-      _compteurIdentifiant,
-      titre,
-      corps,
-      NotificationDetails(android: detailsAndroid, iOS: detailsApple),
+      id: _compteurIdentifiant,
+      title: titre,
+      body: corps,
+      notificationDetails:
+          NotificationDetails(android: detailsAndroid, iOS: detailsApple),
       payload: urlAssociee,
     );
   }

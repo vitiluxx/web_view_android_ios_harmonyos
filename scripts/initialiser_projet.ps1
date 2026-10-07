@@ -165,6 +165,14 @@ Copier-Overlay `
     (Join-Path $dossierFlutter "ios\Runner") `
     "fichiers iOS"
 
+# gradle.properties vit a la racine du dossier android, pas dans app :
+# il est donc recopie a part. Il porte notre reglage memoire.
+$proprietesGradle = Join-Path $dossierOverlayAndroid "gradle.properties"
+if (Test-Path -LiteralPath $proprietesGradle) {
+    Copy-Item $proprietesGradle (Join-Path $dossierFlutter "android\gradle.properties") -Force
+    Ecrire-Succes "gradle.properties -> reglage memoire applique"
+}
+
 # Le modele de signature va a cote du projet Android, jamais dans git.
 $modeleSignature = Join-Path $dossierOverlayAndroid "cle.proprietes.modele"
 $dossierCles = Join-Path $dossierFlutter "android\cles"

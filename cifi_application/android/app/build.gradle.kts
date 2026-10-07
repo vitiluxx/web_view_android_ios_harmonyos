@@ -56,11 +56,10 @@ android {
 
     compileSdk = flutter.compileSdkVersion
 
-    // ndkVersion volontairement absent : aucune bibliotheque de ce projet
-    // ne compile de code natif C++. La declarer forcerait le telechargement
-    // du NDK Android, soit 3 Go inutiles. Si un greffon ajoute un jour du
-    // code natif, Gradle le reclamera : retablissez alors la ligne
-    //     ndkVersion = flutter.ndkVersion
+    // Le NDK est REQUIS, meme sans code C++ ecrit par nous :
+    // path_provider_android depend de jni, qui le reclame. Ne retirez pas
+    // cette ligne, Gradle echouerait avec "NDK not configured".
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -146,5 +145,9 @@ dependencies {
     // Seule dependance Android necessaire : elle apporte aux anciens
     // Android les API de date que flutter_local_notifications utilise.
     // multidex n'est PAS requis : il ne sert qu'en dessous de minSdk 21.
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
+    //
+    // La version minimale est imposee par flutter_local_notifications :
+    // si Gradle reclame plus haut ("requires desugar_jdk_libs version to
+    // be X or above"), montez simplement ce numero.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
